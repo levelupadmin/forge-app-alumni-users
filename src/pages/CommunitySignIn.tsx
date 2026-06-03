@@ -332,6 +332,13 @@ const OtpStep: React.FC<{
         )}
       </div>
 
+      <a
+        href="mailto:PLACEHOLDER@EMAIL.COM"
+        className="mt-6 inline-flex items-center gap-2 self-start rounded-full border border-border/50 bg-card/40 px-4 py-2.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+      >
+        Unable to sign in? Contact the Forge team
+      </a>
+
       <div className="mt-auto pt-8 flex items-center justify-between text-[12px] text-muted-foreground">
         <span>
           Didn&apos;t get it?{' '}
