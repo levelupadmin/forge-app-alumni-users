@@ -4,6 +4,8 @@ import forgeLogo from '@/assets/forge-logo.png';
 import {
   ArrowUpRight,
   Plus,
+  Menu,
+  X,
 } from 'lucide-react';
 
 // "Real moments" - staggered premium row of real alumni photos.
@@ -32,7 +34,7 @@ const CtaButton: React.FC<{ className?: string }> = ({ className = '' }) => (
 const CtaLink: React.FC<{ className?: string }> = ({ className = '' }) => (
   <Link
     to={CTA_TO}
-    className={`group inline-flex items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all ${className}`}
+    className={`group inline-flex min-h-[44px] items-center gap-2 text-sm font-medium text-primary hover:gap-3 transition-all ${className}`}
   >
     Enter the Circle <ArrowUpRight className="h-4 w-4" />
   </Link>
@@ -43,6 +45,7 @@ const CommunityLanding: React.FC = () => {
   // can sign in from anywhere on the (long) page. Hidden again once the final
   // CTA enters view, so we never stack two amber buttons at the bottom.
   const [showStickyCta, setShowStickyCta] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const finalCtaRef = React.useRef<HTMLElement>(null);
   React.useEffect(() => {
     const onScroll = () => {
@@ -80,77 +83,102 @@ const CommunityLanding: React.FC = () => {
             <a href="#how" className="hover:text-[#f5efe2] transition-colors">How</a>
             <a href="#not-alumni" className="hover:text-[#f5efe2] transition-colors">Not alumni? →</a>
           </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Link
               to="/community-redesign/sign-in"
-              className="inline-flex items-center gap-2 rounded-full bg-[#f5efe2] px-4 py-2 text-xs font-medium text-[#0b0a08] hover:bg-white transition-colors"
+              className="hidden sm:inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#f5efe2] px-5 py-2 text-xs font-medium text-[#0b0a08] hover:bg-white transition-colors"
             >
               Enter the Circle
             </Link>
+            <button
+              type="button"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((o) => !o)}
+              className="md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-[#f5efe2] hover:border-primary/40 transition-colors"
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
           </div>
+        </div>
+
+        {/* Mobile menu */}
+        <div
+          className={`md:hidden overflow-hidden border-t border-white/[0.06] transition-[max-height,opacity] duration-300 ${
+            menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <nav className="flex flex-col px-6 py-3 text-sm uppercase tracking-[0.2em] text-[#f5efe2]/70">
+            <a href="#what" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">What it is</a>
+            <a href="#who" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">Who&apos;s in</a>
+            <a href="#how" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">How</a>
+            <a href="#not-alumni" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">Not alumni? →</a>
+            <Link
+              to="/community-redesign/sign-in"
+              onClick={() => setMenuOpen(false)}
+              className="mt-2 mb-1 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-medium normal-case tracking-normal text-primary-foreground"
+            >
+              Enter the Circle
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </nav>
         </div>
       </header>
 
-      {/* ---------- HERO - text left, illustration right ---------- */}
-      <section className="relative">
-        <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 pt-10 sm:pt-20 lg:pt-28 pb-16 sm:pb-20">
-          <div className="grid grid-cols-12 gap-y-8 gap-x-0 lg:gap-x-14 items-center">
-            {/* Left - text */}
-            <div className="col-span-12 lg:col-span-7">
-              <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-[#f5efe2]/55 max-w-md leading-[1.6]">
-                The Forge Community · A private network for filmmakers, writers &amp; creators
-              </div>
+      {/* ---------- HERO - full-bleed background video ---------- */}
+      <section className="relative isolate -mt-16 flex min-h-[100svh] w-full items-end overflow-hidden">
+        {/* Background video */}
+        <video
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster="/images/community-photo-hero.webp"
+        >
+          <source src="/videos/community-hero.mp4" type="video/mp4" />
+        </video>
 
-              <h1 className="font-bold mt-5 sm:mt-6 text-[48px] sm:text-[88px] lg:text-[112px] xl:text-[136px] leading-[0.88] tracking-[-0.04em] text-[#f5efe2]">
-                <span className="block">Alumni,</span>
-                <span className="block italic text-primary">only.</span>
-              </h1>
+        {/* B - soft scrim only behind the text (bottom-left); video stays clear elsewhere */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(115%_110%_at_5%_100%,rgba(11,10,8,0.9)_0%,rgba(11,10,8,0.4)_32%,transparent_62%)]" />
+        {/* thin bottom blend into the next section */}
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-[#0b0a08] to-transparent" />
 
-              <p className="mt-6 sm:mt-8 max-w-md text-base sm:text-lg lg:text-xl leading-[1.55] text-[#f5efe2]/65">
-                A closed room of Forge graduates. Find the people you spent twelve weeks with.
-              </p>
+        {/* Content - lower-left, directly on the video */}
+        <div className="relative z-10 mx-auto w-full max-w-[1440px] px-6 lg:px-12 pb-16 sm:pb-20 lg:pb-24 pt-24">
+          <div className="max-w-4xl">
+            <h1 className="font-bold text-[34px] sm:text-[48px] lg:text-[72px] leading-[1.02] tracking-[-0.02em] text-[#f5efe2] [text-shadow:0_2px_28px_rgba(0,0,0,0.8)]">
+              <span className="block">Once through <span className="whitespace-nowrap">The Forge</span>,</span>
+              <span className="block italic text-primary">always in the room.</span>
+            </h1>
 
-              {/* Eligibility self-qualifier */}
-              <p className="mt-4 inline-flex items-center gap-2 text-[13px] sm:text-sm text-primary/85">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(41_100%_62%)]" />
-                Every Forge graduate. Every cohort. Every track.
-              </p>
+            <p className="mt-5 sm:mt-6 max-w-xl text-base sm:text-lg lg:text-xl leading-[1.5] text-[#f5efe2]/90 [text-shadow:0_1px_16px_rgba(0,0,0,0.85)]">
+              A closed circle for filmmakers, writers and creators. Find collaborators, post gigs, get the call.
+            </p>
 
-              <div className="mt-7 sm:mt-9 flex flex-wrap items-center gap-3">
-                <Link
-                  to="/community-redesign/sign-in"
-                  className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:gap-3 shadow-[0_18px_40px_-18px_hsl(41_100%_62%/0.6)]"
-                >
-                  Enter the Circle
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
-              </div>
+            {/* Eligibility self-qualifier */}
+            <p className="mt-4 inline-flex items-center gap-2 text-[13px] sm:text-sm text-primary [text-shadow:0_1px_12px_rgba(0,0,0,0.9)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(41_100%_62%)]" />
+              Every Forge graduate. Every cohort. Every track.
+            </p>
 
-              <p className="mt-5 text-[12px] sm:text-[13px] text-[#f5efe2]/60">
-                Find collaborators. Hire each other. Post and apply to gigs.
-              </p>
-            </div>
-
-            {/* Right - cinematographer photo */}
-            <div className="col-span-12 lg:col-span-5">
-              <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-black">
-                <div className="aspect-square">
-                  <img
-                    src="/images/community-photo-hero.webp"
-                    alt="A Forge alum behind the camera, lit by a red practical"
-                    className="absolute inset-0 h-full w-full object-cover object-center"
-                  />
-                </div>
-              </div>
+            <div className="mt-7 sm:mt-9 flex flex-wrap items-center gap-3">
+              <Link
+                to="/community-redesign/sign-in"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:gap-3 shadow-[0_18px_40px_-18px_hsl(41_100%_62%/0.6)]"
+              >
+                Enter the Circle
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ---------- REAL MOMENTS - alumni photos ---------- */}
-      <section className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-32">
+      <section className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-32">
         <div className="mb-10 lg:mb-14">
-          <h2 className="font-bold text-[36px] sm:text-[48px] lg:text-[60px] leading-[1.0] tracking-[-0.02em] text-[#f5efe2] max-w-3xl">
+          <h2 className="font-bold text-[30px] sm:text-[48px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[#f5efe2] max-w-3xl">
             The fun doesn’t end
             <br />
             when <span className="italic text-primary whitespace-nowrap">The Forge</span> does.
@@ -170,7 +198,6 @@ const CommunityLanding: React.FC = () => {
                 />
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
-              <figcaption className="mt-3 text-[10px] uppercase tracking-[0.24em] text-[#f5efe2]/45">{m.caption}</figcaption>
             </figure>
           ))}
         </div>
@@ -182,7 +209,7 @@ const CommunityLanding: React.FC = () => {
 
       {/* ---------- WHAT IT IS - Two-tab toggle (Surf / Turf style) ---------- */}
       <section id="what" className="border-y border-white/[0.06] bg-white/[0.015]">
-        <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 pt-16 lg:pt-32">
+        <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 pt-12 lg:pt-32">
           <div className="text-center">
             <div className="text-[10px] uppercase tracking-[0.28em] text-[#f5efe2]/55">What it is</div>
             <h2 className="font-bold mx-auto mt-4 max-w-3xl text-[40px] sm:text-[60px] lg:text-[80px] leading-[0.96] tracking-[-0.02em] text-[#f5efe2]">
@@ -199,7 +226,7 @@ const CommunityLanding: React.FC = () => {
       </section>
 
       {/* ---------- WHO IS IN ---------- */}
-      <section id="who" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-36">
+      <section id="who" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-36">
         <div className="grid grid-cols-12 gap-y-10 gap-x-0 lg:gap-x-10 items-center">
           <div className="col-span-12 lg:col-span-7">
             <div className="text-[10px] uppercase tracking-[0.28em] text-[#f5efe2]/55">Who&apos;s in</div>
@@ -256,7 +283,7 @@ const CommunityLanding: React.FC = () => {
 
       {/* ---------- HOW IT WORKS ---------- */}
       <section id="how" className="border-t border-white/[0.06] bg-white/[0.015]">
-        <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-36">
+        <div className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-36">
           <div className="text-center max-w-3xl mx-auto">
             <div className="text-[10px] uppercase tracking-[0.28em] text-[#f5efe2]/55">How it works</div>
             <h2 className="font-bold mt-4 text-[34px] sm:text-[64px] lg:text-[80px] leading-[0.96] tracking-[-0.02em] text-[#f5efe2]">
@@ -277,29 +304,8 @@ const CommunityLanding: React.FC = () => {
         </div>
       </section>
 
-      {/* ---------- FAQ ---------- */}
-      <section id="faq" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-32 border-t border-white/[0.06]">
-        <div className="grid grid-cols-12 gap-y-10 gap-x-0 lg:gap-x-16">
-          <div className="col-span-12 lg:col-span-4">
-            <div className="text-[10px] uppercase tracking-[0.28em] text-[#f5efe2]/55">Questions</div>
-            <h2 className="font-bold mt-4 text-[32px] sm:text-[56px] lg:text-[72px] leading-[0.96] tracking-[-0.02em] text-[#f5efe2]">
-              Probably <span className="italic text-primary">yours</span>, too.
-            </h2>
-            <p className="mt-5 max-w-xs text-sm text-[#f5efe2]/55 leading-[1.6]">
-              The most common things alumni ask before they sign in.
-              Anything else? <a className="underline underline-offset-4 hover:text-primary transition-colors text-[#f5efe2]/85" href="mailto:PLACEHOLDER@EMAIL.COM">Email the team.</a>
-            </p>
-            <CtaButton className="mt-8" />
-          </div>
-
-          <div className="col-span-12 lg:col-span-8">
-            <Faq />
-          </div>
-        </div>
-      </section>
-
       {/* ---------- NOT ALUMNI ---------- */}
-      <section id="not-alumni" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-24">
+      <section id="not-alumni" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-24">
         <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-[#0e0d0a] p-8 sm:p-12 lg:p-16">
           <div className="absolute -top-32 -right-20 h-[400px] w-[500px] rounded-full bg-primary/8 blur-[120px]" />
           <div className="relative grid grid-cols-12 gap-y-8 gap-x-0 lg:gap-x-8 items-center">
@@ -311,8 +317,9 @@ const CommunityLanding: React.FC = () => {
                 <span className="italic text-primary">The Forge isn&apos;t.</span>
               </h2>
               <p className="mt-5 max-w-xl text-base text-[#f5efe2]/65 leading-[1.6]">
-                Cohort 06 is currently open for applications: twelve weeks of intensive
-                filmmaking, writing, or creator tracks led by working professionals.
+                Cohort 06 is currently open for applications: two weeks of intensive
+                filmmaking, writing, or creator tracks (one in the room, one online),
+                led by working professionals.
                 Graduate, and the Circle opens to you.
               </p>
             </div>
@@ -332,7 +339,7 @@ const CommunityLanding: React.FC = () => {
       </section>
 
       {/* ---------- ONE WORLD - global community ---------- */}
-      <section className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-16 lg:py-28">
+      <section className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-28">
         <div className="text-center max-w-3xl mx-auto">
           <div className="text-[10px] uppercase tracking-[0.28em] text-primary/70">The global circle</div>
           <h2 className="font-bold mt-4 text-[40px] sm:text-[64px] lg:text-[80px] leading-[0.96] tracking-[-0.02em] text-[#f5efe2]">
@@ -355,6 +362,27 @@ const CommunityLanding: React.FC = () => {
             loading="lazy"
             className="relative mx-auto block w-full max-w-5xl"
           />
+        </div>
+      </section>
+
+      {/* ---------- FAQ ---------- */}
+      <section id="faq" className="mx-auto w-full max-w-[1440px] px-6 lg:px-12 py-12 lg:py-32 border-t border-white/[0.06]">
+        <div className="grid grid-cols-12 gap-y-10 gap-x-0 lg:gap-x-16">
+          <div className="col-span-12 lg:col-span-4">
+            <div className="text-[10px] uppercase tracking-[0.28em] text-[#f5efe2]/55">Questions</div>
+            <h2 className="font-bold mt-4 text-[32px] sm:text-[56px] lg:text-[72px] leading-[0.96] tracking-[-0.02em] text-[#f5efe2]">
+              Probably <span className="italic text-primary">yours</span>, too.
+            </h2>
+            <p className="mt-5 max-w-xs text-sm text-[#f5efe2]/55 leading-[1.6]">
+              The most common things alumni ask before they sign in.
+              Anything else? <a className="underline underline-offset-4 hover:text-primary transition-colors text-[#f5efe2]/85" href="mailto:PLACEHOLDER@EMAIL.COM">Email the team.</a>
+            </p>
+            <CtaButton className="mt-8" />
+          </div>
+
+          <div className="col-span-12 lg:col-span-8">
+            <Faq />
+          </div>
         </div>
       </section>
 
@@ -432,7 +460,7 @@ const CommunityPanel: React.FC = () => (
   <div className="grid grid-cols-12 gap-6 lg:gap-10 items-center">
     <div className="col-span-12 lg:col-span-5">
       <div className="text-[10px] uppercase tracking-[0.28em] text-primary/70">01</div>
-      <h3 className="font-bold mt-4 text-[40px] sm:text-[52px] lg:text-[64px] leading-[0.95] tracking-[-0.02em] text-[#f5efe2]">
+      <h3 className="font-bold mt-4 text-[32px] sm:text-[52px] lg:text-[64px] leading-[0.95] tracking-[-0.02em] text-[#f5efe2]">
         Find your <span className="italic text-primary">people</span>.
       </h3>
       <p className="mt-5 max-w-md text-base text-[#f5efe2]/60 leading-[1.6]">
@@ -472,7 +500,7 @@ const GigsPanel: React.FC = () => (
 
     <div className="col-span-12 lg:col-span-5 order-1 lg:order-2">
       <div className="text-[10px] uppercase tracking-[0.28em] text-primary/70">02</div>
-      <h3 className="font-bold mt-4 text-[40px] sm:text-[52px] lg:text-[64px] leading-[0.95] tracking-[-0.02em] text-[#f5efe2]">
+      <h3 className="font-bold mt-4 text-[32px] sm:text-[52px] lg:text-[64px] leading-[0.95] tracking-[-0.02em] text-[#f5efe2]">
         Find your next <span className="italic text-primary">gig</span>.
       </h3>
       <p className="mt-5 max-w-md text-base text-[#f5efe2]/60 leading-[1.6]">
@@ -578,13 +606,13 @@ const Step: React.FC<{ n: string; title: string; body: string; img?: string }> =
 // you scroll they stack on top of one another, each peeking above the next.
 const StackCard: React.FC<{ i: number; img: string; title: string; body: string }> = ({ i, img, title, body }) => (
   <div className="sticky pb-5 sm:pb-6" style={{ top: `${96 + i * 28}px` }}>
-    <div className="grid grid-cols-12 items-center overflow-hidden rounded-3xl border border-white/12 bg-[#0e0d0a] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
-      {/* Image - left column, full art (never cropped), scaled down so the text stays visible */}
-      <div className="col-span-5 self-stretch flex items-center justify-center bg-black border-r border-white/10">
+    <div className="flex flex-col sm:grid sm:grid-cols-12 sm:items-center overflow-hidden rounded-3xl border border-white/12 bg-[#0e0d0a] shadow-[0_30px_70px_-25px_rgba(0,0,0,0.9)]">
+      {/* Image - full-width on mobile, left column at sm+ (full art, never cropped) */}
+      <div className="bg-black border-b border-white/10 sm:col-span-5 sm:self-stretch sm:flex sm:items-center sm:justify-center sm:border-b-0 sm:border-r">
         <img src={img} alt={`${title} illustration`} loading="lazy" className="block w-full h-auto" />
       </div>
-      {/* Heading + subtext - right column */}
-      <div className="col-span-7 px-5 py-6 sm:px-8 sm:py-8">
+      {/* Heading + subtext */}
+      <div className="px-5 py-6 sm:col-span-7 sm:px-8 sm:py-8">
         <h3 className="font-bold text-[26px] sm:text-[40px] leading-[1.02] tracking-[-0.02em] text-[#f5efe2]">
           {title}
         </h3>
