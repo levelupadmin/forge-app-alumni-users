@@ -71,44 +71,46 @@ const CommunityLanding: React.FC = () => {
         }}
       />
 
-      {/* ---------- Top bar ---------- */}
-      <header className="sticky top-0 z-30 border-b border-white/[0.06] bg-[#0b0a08]/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between px-6 lg:px-12">
-          <Link to="/community-redesign/landing" className="flex items-center">
-            <img src={forgeLogo} alt="The Forge" className="h-7 w-auto" />
-          </Link>
-          <nav className="hidden md:flex items-center gap-9 text-[11px] uppercase tracking-[0.24em] text-[#f5efe2]/55">
-            <a href="#what" className="hover:text-[#f5efe2] transition-colors">What it is</a>
-            <a href="#who" className="hover:text-[#f5efe2] transition-colors">Who&apos;s in</a>
-            <a href="#how" className="hover:text-[#f5efe2] transition-colors">How</a>
-            <a href="#not-alumni" className="hover:text-[#f5efe2] transition-colors">Not alumni? →</a>
-          </nav>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              to="/community-redesign/sign-in"
-              className="hidden sm:inline-flex min-h-[44px] items-center gap-2 rounded-full bg-[#f5efe2] px-5 py-2 text-xs font-medium text-[#0b0a08] hover:bg-white transition-colors"
-            >
-              Enter the Circle
+      {/* ---------- Top bar (floating translucent pill) ---------- */}
+      <header className="sticky top-0 z-30">
+        <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center px-3 sm:px-6 lg:px-8">
+          <div className="flex h-12 w-full items-center justify-between gap-3 rounded-full border border-white/12 bg-[#0b0a08]/40 pl-5 pr-2.5 sm:pl-6 sm:pr-3 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+            <Link to="/community-redesign/landing" className="flex items-center">
+              <img src={forgeLogo} alt="The Forge" className="h-6 w-auto" />
             </Link>
-            <button
-              type="button"
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen((o) => !o)}
-              className="md:hidden inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-[#f5efe2] hover:border-primary/40 transition-colors"
-            >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            <nav className="hidden md:flex items-center gap-9 text-[11px] uppercase tracking-[0.24em] text-[#f5efe2]/70">
+              <a href="#what" className="hover:text-[#f5efe2] transition-colors">What it is</a>
+              <a href="#who" className="hover:text-[#f5efe2] transition-colors">Who&apos;s in</a>
+              <a href="#how" className="hover:text-[#f5efe2] transition-colors">How</a>
+              <a href="#not-alumni" className="hover:text-[#f5efe2] transition-colors">Not alumni? →</a>
+            </nav>
+            <div className="flex items-center gap-2">
+              <Link
+                to="/community-redesign/sign-in"
+                className="hidden sm:inline-flex items-center gap-2 rounded-full bg-[#f5efe2] px-5 py-2 text-xs font-medium text-[#0b0a08] hover:bg-white transition-colors"
+              >
+                Enter the Circle
+              </Link>
+              <button
+                type="button"
+                aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen((o) => !o)}
+                className="md:hidden inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-[#f5efe2] hover:border-primary/40 transition-colors"
+              >
+                {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile menu - floating panel below the pill */}
         <div
-          className={`md:hidden overflow-hidden border-t border-white/[0.06] transition-[max-height,opacity] duration-300 ${
+          className={`md:hidden mx-auto w-full max-w-[1440px] overflow-hidden px-3 sm:px-6 transition-[max-height,opacity] duration-300 ${
             menuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           }`}
         >
-          <nav className="flex flex-col px-6 py-3 text-sm uppercase tracking-[0.2em] text-[#f5efe2]/70">
+          <nav className="mt-2 flex flex-col rounded-3xl border border-white/12 bg-[#0b0a08]/90 px-5 py-1.5 text-sm uppercase tracking-[0.2em] text-[#f5efe2]/70 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl">
             <a href="#what" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">What it is</a>
             <a href="#who" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">Who&apos;s in</a>
             <a href="#how" onClick={() => setMenuOpen(false)} className="py-3 hover:text-[#f5efe2] transition-colors">How</a>
@@ -116,7 +118,7 @@ const CommunityLanding: React.FC = () => {
             <Link
               to="/community-redesign/sign-in"
               onClick={() => setMenuOpen(false)}
-              className="mt-2 mb-1 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-medium normal-case tracking-normal text-primary-foreground"
+              className="my-2 inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-medium normal-case tracking-normal text-primary-foreground"
             >
               Enter the Circle
               <ArrowUpRight className="h-4 w-4" />
