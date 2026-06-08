@@ -377,7 +377,7 @@ const CommunityLanding: React.FC = () => {
             </h2>
             <p className="mt-5 max-w-xs text-sm text-[#f5efe2]/55 leading-[1.6]">
               The most common things alumni ask before they sign in.
-              Anything else? <a className="underline underline-offset-4 hover:text-primary transition-colors text-[#f5efe2]/85" href="mailto:PLACEHOLDER@EMAIL.COM">Email the team.</a>
+              Anything else? <a className="underline underline-offset-4 hover:text-primary transition-colors text-[#f5efe2]/85" href="mailto:forgebylevelup@leveluplearning.in">Email the team.</a>
             </p>
             <CtaButton className="mt-8" />
           </div>
@@ -449,7 +449,7 @@ const CommunityLanding: React.FC = () => {
           <nav className="flex items-center gap-6 text-[11px] uppercase tracking-[0.24em] text-[#f5efe2]/60">
             <a className="hover:text-[#f5efe2] transition-colors" href="#">Privacy</a>
             <a className="hover:text-[#f5efe2] transition-colors" href="#">Conduct</a>
-            <a className="hover:text-[#f5efe2] transition-colors" href="mailto:PLACEHOLDER@EMAIL.COM">Get in touch</a>
+            <a className="hover:text-[#f5efe2] transition-colors" href="mailto:forgebylevelup@leveluplearning.in">Get in touch</a>
           </nav>
         </div>
       </footer>
@@ -519,7 +519,7 @@ const GigsPanel: React.FC = () => (
 const FAQS: Array<{ q: string; a: string }> = [
   {
     q: 'I’m a Forge alum but my number doesn’t work. What do I do?',
-    a: 'Send a quick note to PLACEHOLDER@EMAIL.COM with your name and the cohort you graduated from. We keep an alumni list and can add or update your number in 24 hours.',
+    a: 'Send a quick note to forgebylevelup@leveluplearning.in with your name and the cohort you graduated from. We keep an alumni list and can add or update your number in 24 hours.',
   },
   {
     q: 'Who can see my profile?',
