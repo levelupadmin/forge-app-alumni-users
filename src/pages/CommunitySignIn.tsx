@@ -218,7 +218,7 @@ const PhoneStep: React.FC<{
       <div className="mt-auto pt-8 border-t border-border/30">
         <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
           Not a Forge alum yet?{' '}
-          <a href="#" className="text-foreground underline underline-offset-2 hover:text-primary transition-colors">
+          <a href="https://www.leveluplearning.in/" target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-2 hover:text-primary transition-colors">
             Apply for the next cohort →
           </a>
         </p>
@@ -455,7 +455,7 @@ const NotFoundStep: React.FC<{ tried: string; onTryAgain: () => void }> = ({ tri
     </div>
 
     <p className="mt-auto pt-8 text-[11px] uppercase tracking-[0.18em] text-muted-foreground/60">
-      Not Forge alumni? <a href="#" className="text-foreground hover:text-primary underline underline-offset-2 transition-colors">Apply for the next cohort →</a>
+      Not Forge alumni? <a href="https://www.leveluplearning.in/" target="_blank" rel="noreferrer" className="text-foreground hover:text-primary underline underline-offset-2 transition-colors">Apply for the next cohort →</a>
     </p>
   </div>
 );

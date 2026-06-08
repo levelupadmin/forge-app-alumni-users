@@ -327,7 +327,7 @@ const CommunityLanding: React.FC = () => {
             </div>
             <div className="col-span-12 lg:col-span-4 lg:flex lg:justify-end">
               <a
-                href="https://forgebylevelup.com"
+                href="https://www.leveluplearning.in/"
                 target="_blank"
                 rel="noreferrer"
                 className="group inline-flex items-center gap-2 rounded-full bg-[#f5efe2] px-6 py-3 text-sm font-medium text-[#0b0a08] hover:bg-white transition-colors"
